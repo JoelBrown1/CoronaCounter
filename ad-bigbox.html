@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+<!--         <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+-->
+
+    <!-- self contained file for the ad snippets -->
+    <style type="text/css">
+       #bigBox{
+            position: relative;
+            margin: 0 auto;
+            overflow: hidden;
+            -webkit-transform: scale3d(1,1,1);
+        }
+        
+        #bigBox, #bbsAd{
+            width: 300px;
+            height: 250px;
+        }
+        #bigBox:hover{
+            overflow: visible;
+        }
+        #bigBox:hover .xAd{
+            display: block;
+        }
+
+        #mainLink{
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: rgba(4,21,122, .4);
+        }
+        
+        #bbsAd, .xAd{
+            background: url(images/background.jpg) top right no-repeat;
+        }
+        .xAd{
+            display: none;
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 728px;
+            height: 250px;
+        }
+        .xAd ul{
+            list-style:none;
+            position: absolute;
+            top: 5px;
+            left: 85px;
+            float: left;
+        }
+        .xAd li{
+            display: inline-block;
+            float: left;
+        }
+        .ad1, .ad2{
+            height: 93px;
+            width: 191px;
+            background-color: #223d78;
+            position: absolute;
+            top:115px;
+            color: #fff;
+            font: normal normal normal 15px/24px "Helvetica", Ariel, san-serif;
+        }
+        .ad1{
+            width: 191px;
+            left: -203px;
+        }
+        .ad2{
+            width: 166px;
+            left: 0px;
+        }
+        #bbsAd ul{
+            margin-top: 0px;
+            list-style: none;
+        }
+        #bbsAd li{
+            display: inline-block;
+        }
+        .leftSpace{
+            margin-right: 11px;
+        }
+    </style>
+     </head>
+    <body>
+        big box ad
+        
+            <div id="bigBox">
+                <a id="mainLink" href="%%DEST_URL_UNESC%%" target="_blank">
+                     <div id="bbsAd">
+                    </div>
+                   <div class="xAd">
+                       <ul>
+                           <li><img id="days10" src="images/num0.jpg"/></li>
+                           <li class="leftSpace"><img id="days1" src="images/num0.jpg"/></li>
+                           <li><img id="hours10" src="images/num0.jpg"/></li>
+                           <li class="leftSpace"><img id="hours1" src="images/num0.jpg"/></li>
+                           <li><img id="mins10" src="images/num0.jpg"/></li>
+                           <li class="leftSpace"><img id="mins1" src="images/num0.jpg"/></li>
+                           <li><img id="sec10" src="images/num0.jpg"/></li>
+                           <li><img id="sec1" src="images/num0.jpg"/></li>
+                       </ul>
+                   </div> 
+                </a>
+                <a class="ad1" href="http://icanhas.cheezburger.com" target="_blank" ><img src="images/ad1.jpg" height="93" width="191" alt="4 tips for grilling with beer."/></a>
+                <a class="ad2" href="https://www.google.ca" target="_blank" ><img src="images/ad1.jpg" height="93" width="165" alt="What your beer says about you."/></a>
+            </div>
+         
+        <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            var countIndex = 0;
+            var expandedAd;
+            var date = new Date();
+            var cDay = date.getDate();
+            var cMonth = date.getMonth()+1;
+            var cYear = date.getFullYear();
+            var daysBetween;
+            var lwsDates = [
+                            { month: 4, day : 8 },
+                            { month: 4, day : 16 },
+                            { month: 6, day : 1 },
+                            { month: 7, day : 4 },
+                            { month: 8, day : 1 }
+                        ];
+            var countStartDates = [
+                            { month: 4, day : 3 },
+                            { month: 4, day : 7 },
+                            { month: 6, day : 4 },
+                            { month: 7, day : 7 },
+                            { month: 8, day : 4 }
+                        ];
+            var countIndex = checkDate();
+
+            // setting up the set itnerval to check current time and subtract it from hours remaining till midnight
+            var nextCountStartDate = new Date();
+            nextCountStartDate.setFullYear(cYear, countStartDates[countIndex].month, countStartDates[countIndex].day);
+            var upComingDate = new Date(cYear, lwsDates[countIndex].month, lwsDates[countIndex].day, 17, 0, 0, 0);
+
+            var _second = 1000;
+            var _minute = _second * 60;
+            var _hour = _minute * 60;
+            var _day = _hour * 24;
+
+            if(date > nextCountStartDate){
+
+                var myVar=setInterval(function(){myTimer()},1000);
+
+            } else {
+                $(".days10").attr('src','images/num0.jpg');
+                $(".days1").attr('src','images/num0.jpg');
+
+                $(".hours10").attr('src','images/num0.jpg');
+                $(".hours1").attr('src','images/num0.jpg');
+
+                $(".mins10").attr('src','images/num0.jpg');
+                $(".mins1").attr('src','images/num0.jpg');
+
+                $(".sec10").attr('src','images/num0.jpg');
+                $(".sec1").attr('src','images/num0.jpg');
+            }
+             
+
+
+            function myTimer(){
+                var now = new Date();
+                var distance = upComingDate - now;
+
+                var days = Math.floor(distance / _day);
+                var hours = Math.floor((distance % _day) / _hour);
+                var minutes = Math.floor((distance % _hour) / _minute);
+                var seconds = Math.floor((distance % _minute) / _second);
+                
+                // formatting the time
+                var tHoursDiff = formatTime(hours);
+                var tMinDiff = formatTime(minutes);
+                var tSecsDiff = formatTime(seconds);
+
+                var timeStamp = tHoursDiff+":"+tMinDiff+":"+tSecsDiff;
+
+                $("#days10").attr('src','images/num'+Math.floor(days/10)+".jpg");
+                $("#days1").attr('src','images/num'+days%10+".jpg");
+
+                $("#hours10").attr('src','images/num'+Math.floor(tHoursDiff/10)+".jpg");
+                $("#hours1").attr('src','images/num'+tHoursDiff%10+".jpg");
+
+                $("#mins10").attr('src','images/num'+Math.floor(tMinDiff/10)+".jpg");
+                $("#mins1").attr('src','images/num'+tMinDiff%10+".jpg");
+
+                $("#sec10").attr('src','images/num'+Math.floor(tSecsDiff/10)+".jpg");
+                $("#sec1").attr('src','images/num'+tSecsDiff%10+".jpg");
+
+            }
+
+            function formatTime(val1){
+                if(val1 < 10){
+                    var e = "0"+val1;
+                } else {
+                    var e = val1;
+                }
+                return e;
+            }
+
+            function checkDate() {
+                for(var i=0; i<lwsDates.length;i++){
+                    var comparedDate = new Date(cYear, lwsDates[i].month, lwsDates[i].day, 17, 0, 0, 0);
+                   
+                    if(date < comparedDate){
+                        return i;
+                    }
+                }
+            }
+        </script>
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. 
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>-->
+    </body>
+</html>
